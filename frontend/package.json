@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint src/ --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "release": "npm run build && sentry-cli releases new %SENTRY_RELEASE% && sentry-cli releases files %SENTRY_RELEASE% upload-sourcemaps ./dist --url-prefix '~/' && sentry-cli releases finalize %SENTRY_RELEASE%",
+    "release": "npm run build && sentry-cli releases new $SENTRY_RELEASE && sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps ./dist --url-prefix '~/' && sentry-cli releases finalize $SENTRY_RELEASE",
     "release:v1.0.0": "cross-env SENTRY_RELEASE=release-health-monitor@1.0.0 npm run release",
     "release:v1.1.0": "cross-env SENTRY_RELEASE=release-health-monitor@1.1.0 npm run release",
     "release:v1.1.1": "cross-env SENTRY_RELEASE=release-health-monitor@1.1.1 npm run release"

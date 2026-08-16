@@ -1,14 +1,17 @@
 import { Router, Request, Response } from 'express';
+import * as Sentry from '@sentry/node';
 import { store } from '../data/store';
 import { CreateItemDto, UpdateItemDto } from '../types/item';
 
 export const itemsRouter = Router();
 
-itemsRouter.get('/', async (req: Request, res: Response) => {
+itemsRouter.get('/', async (_req: Request, res: Response) => {
   try {
     const items = store.getAll();
     res.status(200).json(items);
   } catch (error) {
+    console.error('[GET /api/items] Error:', error);
+    Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -22,6 +25,8 @@ itemsRouter.get('/:id', async (req: Request, res: Response) => {
     }
     res.status(200).json(item);
   } catch (error) {
+    console.error(`[GET /api/items/${req.params.id}] Error:`, error);
+    Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -36,6 +41,8 @@ itemsRouter.post('/', async (req: Request, res: Response) => {
     const newItem = store.create({ title, content });
     res.status(201).json(newItem);
   } catch (error) {
+    console.error('[POST /api/items] Error:', error);
+    Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -50,6 +57,8 @@ itemsRouter.put('/:id', async (req: Request, res: Response) => {
     }
     res.status(200).json(updated);
   } catch (error) {
+    console.error(`[PUT /api/items/${req.params.id}] Error:`, error);
+    Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -63,6 +72,8 @@ itemsRouter.delete('/:id', async (req: Request, res: Response) => {
     }
     res.status(204).send();
   } catch (error) {
+    console.error(`[DELETE /api/items/${req.params.id}] Error:`, error);
+    Sentry.captureException(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
