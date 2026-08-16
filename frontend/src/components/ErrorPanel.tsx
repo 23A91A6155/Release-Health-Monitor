@@ -44,7 +44,8 @@ const ErrorPanel: React.FC<ErrorPanelProps> = ({ onToast }) => {
       await api.triggerHandledError();
       onToast('Backend handled error sent to Sentry', 'success');
     } catch {
-      onToast('Backend handled error triggered', 'info');
+      // 500 is expected — the backend catches the error, sends to Sentry, and returns 500
+      onToast('Backend handled error sent to Sentry successfully!', 'success');
     } finally {
       setLoading(null);
     }
